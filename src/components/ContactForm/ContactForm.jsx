@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ButtonForm } from 'components/ButtonForm/ButtonForm';
 import { MdPersonAddAlt } from 'react-icons/md';
@@ -6,35 +7,42 @@ import { Label, Form } from './ContactForm.styled';
 import { InputItem } from 'components/InputItem/InputItem';
 
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export const ContactForm = ({onAddBtnClick}) => {
+
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const onInputChange = event => {
+    switch (event.target.name) {
+      case 'name':
+        setName(event.target.value);
+        break;
+      case 'number':
+        setNumber(event.target.value);
+        break;
+      default:
+        return;
+    }
   };
 
-  onInputChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.onAddBtnClick(this.state);
-    this.resetForm();
+    onAddBtnClick({ name, number });
+    resetForm();
   };
 
-  resetForm = () => {
-    this.setState({ name: '', number: '' });
+  const resetForm = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Label>
           Name
           <InputItem
-            onChange={this.onInputChange}
-            value={this.state.name}
+            onChange={onInputChange}
+            value={name}
             name="name"
             placeholder="Enter contact`s name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -44,8 +52,8 @@ export class ContactForm extends Component {
         <Label>
           Number
           <InputItem
-            onChange={this.onInputChange}
-            value={this.state.number}
+            onChange={onInputChange}
+            value={number}
             type="tel"
             name="number"
             placeholder="Enter contact`s number"
@@ -61,7 +69,6 @@ export class ContactForm extends Component {
         />
       </Form>
     );
-  }
 }
 
 ContactForm.propTypes = {
