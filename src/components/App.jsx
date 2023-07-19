@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
 import { useState } from "react";
 import { defaultContacts } from "./data/DefaultContacts";
-import { useLocalStorage } from "./LocalStorage/LocalStorage";
+import { useLocalStorage } from "../Hooks/useLocalStorage";
 
 
 export const App = () => {
